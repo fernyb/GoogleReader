@@ -1,0 +1,5 @@
+build
+build/*
+.DS_Store
+GoogleReader.xcodeproj/*.mode1v3
+GoogleReader.xcodeproj/*.pbxuser
