@@ -5,3 +5,10 @@ A set of Objective-C/Cocoa Classes to interact with Google Reader service.
 Based on the API documentation from: 
 
     http://blog.martindoms.com/2009/10/16/using-the-google-reader-api-part-2/
+    
+
+== Tests
+
+GoogleReader uses GHUnit Framework for tests.
+
+    http://github.com/gabriel/gh-unit
