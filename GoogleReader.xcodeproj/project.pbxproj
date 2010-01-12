@@ -24,6 +24,7 @@
 		C424A38610FC38A6007083E4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C424A38510FC38A6007083E4 /* libz.dylib */; };
 		C424A38810FC38BF007083E4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C424A38710FC38BF007083E4 /* Security.framework */; };
 		C424A38A10FC38D0007083E4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C424A38910FC38D0007083E4 /* SystemConfiguration.framework */; };
+		C424A3EE10FC4897007083E4 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A3ED10FC4897007083E4 /* AppController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,8 @@
 		C424A38510FC38A6007083E4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C424A38710FC38BF007083E4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C424A38910FC38D0007083E4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C424A3EC10FC4897007083E4 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		C424A3ED10FC4897007083E4 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,10 +110,9 @@
 		29B97314FDCFA39411CA2CEA /* GoogleReader */ = {
 			isa = PBXGroup;
 			children = (
+				C424A3EA10FC4876007083E4 /* Controllers */,
 				C424A36B10FC37D6007083E4 /* asi-http-request */,
 				C424A36710FC37C2007083E4 /* Classes */,
-				C424A36410FC37AC007083E4 /* GoogleReaderAppDelegate.h */,
-				C424A36510FC37AC007083E4 /* GoogleReaderAppDelegate.m */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -183,6 +185,17 @@
 			path = "asi-http-request";
 			sourceTree = "<group>";
 		};
+		C424A3EA10FC4876007083E4 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C424A36410FC37AC007083E4 /* GoogleReaderAppDelegate.h */,
+				C424A36510FC37AC007083E4 /* GoogleReaderAppDelegate.m */,
+				C424A3EC10FC4897007083E4 /* AppController.h */,
+				C424A3ED10FC4897007083E4 /* AppController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -249,6 +262,7 @@
 				C424A38210FC37D6007083E4 /* ASIS3BucketObject.m in Sources */,
 				C424A38310FC37D6007083E4 /* ASIS3ListRequest.m in Sources */,
 				C424A38410FC37D6007083E4 /* ASIS3Request.m in Sources */,
+				C424A3EE10FC4897007083E4 /* AppController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

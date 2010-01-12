@@ -10,17 +10,24 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 
-
 @implementation GoogleReader
 @synthesize email, password, sessionId, token;
+
+- (id)initWithEmail:(NSString *)address andPassword:(NSString *)passwd
+{
+  self = [super init];
+  if (self != nil) {
+    [self setEmail:address];
+    [self setPassword:passwd];
+  }
+  return self;
+}
 
 #pragma mark Request A Token
 
 - (void)requestToken
 {
-  if(!cookies) {
-    [self requestSession];
-  }
+  [self requestSession];
   
   if(cookies && [cookies count] > 0) {      
     NSString * url = @"http://www.google.com/reader/api/0/token";
@@ -101,18 +108,25 @@
     [request setPostValue:feedURL forKey:@"quickadd"];
     [request setPostValue:[self token] forKey:@"T"];
     [request setRequestMethod:@"POST"];
+    [request setDelegate:self];
+    [request setDidFinishSelector:@selector(requestDidSubscribe:)];
+    [request setDidFailSelector:@selector(requestDidFailToSubscribe:)];
     [request startSynchronous];
-    
-    if([request responseStatusCode] == 200) {
-      NSLog(@"Success, Now subscribed to RSS Feed:");
-    } else {
-      NSLog(@"Error");
-      NSLog(@"%@", [request error]);
-    }
-    NSString * resp = [request responseString];
-    NSLog(@"%@", resp);
-    
   }
+}
+
+#pragma mark Subscribe Delegate Methods
+
+- (void)requestDidSubscribe:(ASIHTTPRequest *)request
+{
+  NSString * response = [request responseString];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];
+}
+
+- (void)requestDidFailToSubscribe:(ASIHTTPRequest *)request
+{
+  NSString * response = [[request error] localizedDescription];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];  
 }
 
 - (void) dealloc

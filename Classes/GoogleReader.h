@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class ASIHTTPRequest;
 
 @interface GoogleReader : NSObject {
   NSString * email;
@@ -22,8 +23,13 @@
 @property(copy) NSString * sessionId;
 @property(copy) NSString * token;
 
+- (id)initWithEmail:(NSString *)address andPassword:(NSString *)passwd;
+
 - (void)requestToken;
 - (void)requestSession;
 - (void)subscribeToRSSFeedURL:(NSString *)feedURL;
+
+- (void)requestDidSubscribe:(ASIHTTPRequest *)request;
+- (void)requestDidFailToSubscribe:(ASIHTTPRequest *)request;
 
 @end
