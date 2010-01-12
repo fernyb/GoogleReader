@@ -29,7 +29,7 @@
   [feedURL setStringValue:@"http://cocoacast.com/?q=rss.xml"];
 }
 
-- (IBAction)subscribeBtn:(id)sender;
+- (IBAction)subscribeBtn:(id)sender
 {
   GoogleReader * reader = [[GoogleReader alloc] init];
   [reader setEmail:[email stringValue]];
