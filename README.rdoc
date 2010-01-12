@@ -1,0 +1,7 @@
+h1. GoogleReader
+
+A set of Objective-C/Cocoa Classes to interact with Google Reader service.
+
+Based on the API documentation from: 
+
+    <b>http://blog.martindoms.com/2009/10/16/using-the-google-reader-api-part-2/</b>
