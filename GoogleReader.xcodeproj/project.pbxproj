@@ -11,6 +11,21 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		C40EAC9310FCCA920002BCF3 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C40EAC9210FCCA920002BCF3 /* GHUnit.framework */; };
+		C40EACB010FCCE610002BCF3 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = C40EACAF10FCCE610002BCF3 /* GHUnitTestMain.m */; };
+		C40EACC410FCCFB70002BCF3 /* GoogleReaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C40EACC310FCCFB70002BCF3 /* GoogleReaderTest.m */; };
+		C40EACEC10FCD3D20002BCF3 /* GoogleReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A36910FC37C2007083E4 /* GoogleReader.m */; };
+		C40EACED10FCD3D20002BCF3 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A36D10FC37D6007083E4 /* ASIFormDataRequest.m */; };
+		C40EACEE10FCD3D20002BCF3 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A36F10FC37D6007083E4 /* ASIHTTPRequest.m */; };
+		C40EACEF10FCD3D20002BCF3 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A37210FC37D6007083E4 /* ASIInputStream.m */; };
+		C40EACF010FCD3D20002BCF3 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A37410FC37D6007083E4 /* ASINetworkQueue.m */; };
+		C40EACF110FCD3D20002BCF3 /* ASINSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A37610FC37D6007083E4 /* ASINSStringAdditions.m */; };
+		C40EACF210FCD3D20002BCF3 /* ASIS3BucketObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A37810FC37D6007083E4 /* ASIS3BucketObject.m */; };
+		C40EACF310FCD3D20002BCF3 /* ASIS3ListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A37A10FC37D6007083E4 /* ASIS3ListRequest.m */; };
+		C40EACF410FCD3D20002BCF3 /* ASIS3Request.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A37C10FC37D6007083E4 /* ASIS3Request.m */; };
+		C40EACF810FCD4370002BCF3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C424A38510FC38A6007083E4 /* libz.dylib */; };
+		C40EACF910FCD4500002BCF3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C424A38710FC38BF007083E4 /* Security.framework */; };
+		C40EACFA10FCD4630002BCF3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C424A38910FC38D0007083E4 /* SystemConfiguration.framework */; };
 		C424A36610FC37AC007083E4 /* GoogleReaderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A36510FC37AC007083E4 /* GoogleReaderAppDelegate.m */; };
 		C424A36A10FC37C2007083E4 /* GoogleReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A36910FC37C2007083E4 /* GoogleReader.m */; };
 		C424A37D10FC37D6007083E4 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A36D10FC37D6007083E4 /* ASIFormDataRequest.m */; };
@@ -27,6 +42,16 @@
 		C424A3EE10FC4897007083E4 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = C424A3ED10FC4897007083E4 /* AppController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C40EAC9610FCCAEB0002BCF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090 /* GoogleReader */;
+			remoteInfo = GoogleReader;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -38,6 +63,12 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* GoogleReader-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleReader-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GoogleReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C40EAC8C10FCCA5E0002BCF3 /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Tests.app; path = build/Debug/Tests.app; sourceTree = "<group>"; };
+		C40EAC8E10FCCA5E0002BCF3 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
+		C40EAC9210FCCA920002BCF3 /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnit.framework; path = Library/Frameworks/GHUnit.framework; sourceTree = SDKROOT; };
+		C40EACAF10FCCE610002BCF3 /* GHUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitTestMain.m; sourceTree = "<group>"; };
+		C40EACC210FCCFB70002BCF3 /* GoogleReaderTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderTest.h; sourceTree = "<group>"; };
+		C40EACC310FCCFB70002BCF3 /* GoogleReaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderTest.m; sourceTree = "<group>"; };
 		C424A36410FC37AC007083E4 /* GoogleReaderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderAppDelegate.h; sourceTree = "<group>"; };
 		C424A36510FC37AC007083E4 /* GoogleReaderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderAppDelegate.m; sourceTree = "<group>"; };
 		C424A36810FC37C2007083E4 /* GoogleReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReader.h; sourceTree = "<group>"; };
@@ -78,6 +109,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C40EAC8A10FCCA5E0002BCF3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C40EAC9310FCCA920002BCF3 /* GHUnit.framework in Frameworks */,
+				C40EACF810FCD4370002BCF3 /* libz.dylib in Frameworks */,
+				C40EACF910FCD4500002BCF3 /* Security.framework in Frameworks */,
+				C40EACFA10FCD4630002BCF3 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -103,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* GoogleReader.app */,
+				C40EAC8C10FCCA5E0002BCF3 /* Tests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,6 +153,7 @@
 		29B97314FDCFA39411CA2CEA /* GoogleReader */ = {
 			isa = PBXGroup;
 			children = (
+				C40EACA410FCCB580002BCF3 /* Tests */,
 				C424A3EA10FC4876007083E4 /* Controllers */,
 				C424A36B10FC37D6007083E4 /* asi-http-request */,
 				C424A36710FC37C2007083E4 /* Classes */,
@@ -120,6 +164,8 @@
 				C424A38510FC38A6007083E4 /* libz.dylib */,
 				C424A38710FC38BF007083E4 /* Security.framework */,
 				C424A38910FC38D0007083E4 /* SystemConfiguration.framework */,
+				C40EAC8E10FCCA5E0002BCF3 /* Tests-Info.plist */,
+				C40EAC9210FCCA920002BCF3 /* GHUnit.framework */,
 			);
 			name = GoogleReader;
 			sourceTree = "<group>";
@@ -150,6 +196,16 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C40EACA410FCCB580002BCF3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C40EACAF10FCCE610002BCF3 /* GHUnitTestMain.m */,
+				C40EACC210FCCFB70002BCF3 /* GoogleReaderTest.h */,
+				C40EACC310FCCFB70002BCF3 /* GoogleReaderTest.m */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C424A36710FC37C2007083E4 /* Classes */ = {
@@ -217,6 +273,24 @@
 			productReference = 8D1107320486CEB800E47090 /* GoogleReader.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C40EAC8B10FCCA5E0002BCF3 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C40EAC9110FCCA5F0002BCF3 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				C40EAC8810FCCA5E0002BCF3 /* Resources */,
+				C40EAC8910FCCA5E0002BCF3 /* Sources */,
+				C40EAC8A10FCCA5E0002BCF3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C40EAC9710FCCAEB0002BCF3 /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = C40EAC8C10FCCA5E0002BCF3 /* Tests.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -230,6 +304,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* GoogleReader */,
+				C40EAC8B10FCCA5E0002BCF3 /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -241,6 +316,13 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C40EAC8810FCCA5E0002BCF3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +348,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C40EAC8910FCCA5E0002BCF3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C40EACEC10FCD3D20002BCF3 /* GoogleReader.m in Sources */,
+				C40EACED10FCD3D20002BCF3 /* ASIFormDataRequest.m in Sources */,
+				C40EACEE10FCD3D20002BCF3 /* ASIHTTPRequest.m in Sources */,
+				C40EACEF10FCD3D20002BCF3 /* ASIInputStream.m in Sources */,
+				C40EACF010FCD3D20002BCF3 /* ASINetworkQueue.m in Sources */,
+				C40EACF110FCD3D20002BCF3 /* ASINSStringAdditions.m in Sources */,
+				C40EACF210FCD3D20002BCF3 /* ASIS3BucketObject.m in Sources */,
+				C40EACF310FCD3D20002BCF3 /* ASIS3ListRequest.m in Sources */,
+				C40EACF410FCD3D20002BCF3 /* ASIS3Request.m in Sources */,
+				C40EACB010FCCE610002BCF3 /* GHUnitTestMain.m in Sources */,
+				C40EACC410FCCFB70002BCF3 /* GoogleReaderTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C40EAC9710FCCAEB0002BCF3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* GoogleReader */;
+			targetProxy = C40EAC9610FCCAEB0002BCF3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
@@ -345,6 +453,54 @@
 			};
 			name = Release;
 		};
+		C40EAC8F10FCCA5F0002BCF3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Tests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tests;
+			};
+			name = Debug;
+		};
+		C40EAC9010FCCA5F0002BCF3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Tests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tests;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -362,6 +518,15 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C40EAC9110FCCA5F0002BCF3 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C40EAC8F10FCCA5F0002BCF3 /* Debug */,
+				C40EAC9010FCCA5F0002BCF3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
