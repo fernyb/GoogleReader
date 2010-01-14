@@ -12,6 +12,7 @@
 
 @implementation GoogleReader
 @synthesize email, password, sessionId, token;
+@synthesize rssURL;
 
 - (id)initWithEmail:(NSString *)address andPassword:(NSString *)passwd
 {
@@ -23,12 +24,11 @@
   return self;
 }
 
+
 #pragma mark Request A Token
 
 - (void)requestToken
-{
-  [self requestSession];
-  
+{  
   if(cookies && [cookies count] > 0) {      
     NSString * url = @"http://www.google.com/reader/api/0/token";
     
@@ -47,61 +47,70 @@
 
 - (void)requestSession
 {
-  if(![self sessionId]) {
-    NSString * url = [NSString stringWithFormat:@"https://www.google.com/accounts/ClientLogin?service=reader&Email=%@&Passwd=%@", [self email], [self password]];
-    
-    //
-    // Note to self: Asychronous will be way better!
-    //
-    ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
-    [request startSynchronous];
-    
-    NSString * html = [request responseString];
-    
-    if(html) {
-      if(cookies) {
-        [cookies release], cookies = nil;
-      }
-      
-      NSArray * items = [html componentsSeparatedByString:@"\n"];
-      
-      cookies = [[NSMutableArray alloc] init];
-      
-      NSArray  * parts;
-      NSString * cName;
-      NSString * cValue;
-      
-      for(NSString * c in items) {
-        parts  = [c componentsSeparatedByString:@"="];
-        if([parts count] == 2) {            
-          cName  = [parts objectAtIndex:0];
-          cValue = [parts objectAtIndex:1];
-          
-          NSMutableDictionary * cookieProperties = [[NSMutableDictionary alloc] init];
-          [cookieProperties setValue:cName forKey:NSHTTPCookieName];
-          [cookieProperties setValue:cValue forKey:NSHTTPCookieValue];
-          [cookieProperties setValue:@"/" forKey:NSHTTPCookiePath];
-          [cookieProperties setValue:@".google.com" forKey:NSHTTPCookieDomain];
-          
-          NSHTTPCookie * cookie = [[NSHTTPCookie alloc] initWithProperties:cookieProperties];
-          
-          [cookies addObject:cookie];
-          [cookie release], cookie = nil;
-          [cookieProperties release], cookieProperties = nil;
-        }
-      } // end for
-    } // end if html
-    
+  if(cookies && [cookies count] > 0) {
+    return;
   }
+  
+  NSString * url = [NSString stringWithFormat:@"https://www.google.com/accounts/ClientLogin?service=reader&Email=%@&Passwd=%@", [self email], [self password]];
+ 
+  ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+  [request setDelegate:self];
+  [request setDidFinishSelector:@selector(requestSessionDidFinish:)];
+  [request setDidFailSelector:@selector(requestSessionDidFail:)];
+  [request startSynchronous];
 }
+
+#pragma mark Request Session Delegate
+
+- (void)requestSessionDidFinish:(ASIHTTPRequest *)request
+{  
+  NSString * html = [request responseString];
+  if(html) {
+    NSArray * items = [html componentsSeparatedByString:@"\n"];
+    
+    cookies = [[NSMutableArray alloc] init];
+    
+    NSArray  * parts;
+    NSString * cName;
+    NSString * cValue;
+    
+    for(NSString * c in items) {
+      parts  = [c componentsSeparatedByString:@"="];
+      if([parts count] == 2) {            
+        cName  = [parts objectAtIndex:0];
+        cValue = [parts objectAtIndex:1];
+        
+        NSMutableDictionary * cookieProperties = [[NSMutableDictionary alloc] init];
+        [cookieProperties setValue:cName forKey:NSHTTPCookieName];
+        [cookieProperties setValue:cValue forKey:NSHTTPCookieValue];
+        [cookieProperties setValue:@"/" forKey:NSHTTPCookiePath];
+        [cookieProperties setValue:@".google.com" forKey:NSHTTPCookieDomain];
+        
+        NSHTTPCookie * cookie = [[NSHTTPCookie alloc] initWithProperties:cookieProperties];
+        
+        [cookies addObject:cookie];
+        [cookie release], cookie = nil;
+        [cookieProperties release], cookieProperties = nil;
+      }
+    } // end for
+  } // end if html
+}
+
+- (void)requestSessionDidFail:(ASIHTTPRequest *)request
+{
+  NSLog(@"Request Session Did Fail: %@", [[request error] localizedDescription]);
+}
+
 
 #pragma mark Subscribe To RSS Feed
 
 - (void)subscribeToRSSFeedURL:(NSString *)feedURL
 {
+  [self requestSession];
   [self requestToken];
   
-  if([self token]) {
+  if([self token] && feedURL) {
+  
     NSString * url = @"http://www.google.com/reader/api/0/subscription/quickadd?client=scroll";
     
     ASIFormDataRequest * request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
@@ -115,6 +124,11 @@
   }
 }
 
+- (void)subscribe
+{
+  [self subscribeToRSSFeedURL:rssURL];
+}
+
 #pragma mark Subscribe Delegate Methods
 
 - (void)requestDidSubscribe:(ASIHTTPRequest *)request
@@ -124,10 +138,12 @@
 }
 
 - (void)requestDidFailToSubscribe:(ASIHTTPRequest *)request
-{
+{ 
   NSString * response = [[request error] localizedDescription];
   [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];  
 }
+
+
 
 - (void) dealloc
 {
@@ -136,6 +152,7 @@
   [sessionId release];
   [token release];
   [cookies release];
+  [rssURL release];
   [super dealloc];
 }
 

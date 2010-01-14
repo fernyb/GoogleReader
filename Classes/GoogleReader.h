@@ -16,20 +16,27 @@
   NSString * sessionId;
   NSString * token;
   NSMutableArray * cookies;
+  NSString * rssURL;
 }
 
 @property(copy) NSString * email;
 @property(copy) NSString * password;
 @property(copy) NSString * sessionId;
 @property(copy) NSString * token;
+@property(copy) NSString * rssURL;
 
 - (id)initWithEmail:(NSString *)address andPassword:(NSString *)passwd;
 
 - (void)requestToken;
-- (void)requestSession;
-- (void)subscribeToRSSFeedURL:(NSString *)feedURL;
 
+- (void)requestSession;
+- (void)requestSessionDidFinish:(ASIHTTPRequest *)request;
+- (void)requestSessionDidFail:(ASIHTTPRequest *)request;
+
+- (void)subscribeToRSSFeedURL:(NSString *)feedURL;
+- (void)subscribe;
 - (void)requestDidSubscribe:(ASIHTTPRequest *)request;
 - (void)requestDidFailToSubscribe:(ASIHTTPRequest *)request;
+
 
 @end

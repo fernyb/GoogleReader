@@ -34,7 +34,8 @@
   GoogleReader * reader = [[GoogleReader alloc] init];
   [reader setEmail:[email stringValue]];
   [reader setPassword:[password stringValue]];
-  [reader subscribeToRSSFeedURL:[feedURL stringValue]];
+  [reader setRssURL:[feedURL stringValue]];
+  [reader subscribe];
   [reader release];
 }
 
