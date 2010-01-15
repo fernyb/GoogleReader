@@ -38,5 +38,9 @@
 - (void)requestDidSubscribe:(ASIHTTPRequest *)request;
 - (void)requestDidFailToSubscribe:(ASIHTTPRequest *)request;
 
+- (void)unsubscribe;
+- (void)unsubscribeToRSSFeedURL:(NSString *)feedURL;
+- (void)requestDidUnsubscribe:(ASIHTTPRequest *)request;
+- (void)requestDidFailToUnsubscribe:(ASIHTTPRequest *)request;
 
 @end

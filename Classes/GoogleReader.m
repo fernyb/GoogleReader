@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 
+
 @implementation GoogleReader
 @synthesize email, password, sessionId, token;
 @synthesize rssURL;
@@ -110,7 +111,6 @@
   [self requestToken];
   
   if([self token] && feedURL) {
-  
     NSString * url = @"http://www.google.com/reader/api/0/subscription/quickadd?client=scroll";
     
     ASIFormDataRequest * request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
@@ -143,6 +143,48 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];  
 }
 
+#pragma mark Unsubscribe
+
+- (void)unsubscribeToRSSFeedURL:(NSString *)feedURL
+{
+  [self requestSession];
+  [self requestToken];
+ 
+  if([self token] && feedURL) {
+    NSString * url = @"http://www.google.com/reader/api/0/subscription/edit?client=scroll";
+    
+    ASIFormDataRequest * request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setPostValue:[NSString stringWithFormat:@"feed/%@", feedURL] 
+                   forKey:@"s"];
+    [request setPostValue:@"unsubscribe" forKey:@"ac"];
+    [request setPostValue:[self token] forKey:@"T"];
+    [request setRequestMethod:@"POST"];
+    
+    [request setDelegate:self];
+    [request setDidFinishSelector:@selector(requestDidUnsubscribe:)];
+    [request setDidFailSelector:@selector(requestDidFailToUnsubscribe:)];
+    [request startSynchronous];    
+  }
+}
+
+- (void)unsubscribe
+{
+  [self unsubscribeToRSSFeedURL:rssURL];
+}
+
+#pragma mark Unsubscribe Delegate Methods
+
+- (void)requestDidUnsubscribe:(ASIHTTPRequest *)request
+{
+  NSString * response = [request responseString];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];
+}
+
+- (void)requestDidFailToUnsubscribe:(ASIHTTPRequest *)request
+{ 
+  NSString * response = [[request error] localizedDescription];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];  
+}
 
 
 - (void) dealloc

@@ -14,9 +14,11 @@
   IBOutlet NSTextField * password;
   IBOutlet NSTextField * feedURL;
   IBOutlet NSTextField * response;
+  NSString * action;
 }
 
 - (IBAction)subscribeBtn:(id)sender;
 - (void)didReceiveGoogleReaderResponse:(NSNotification *)notification;
+- (IBAction)findSelectedRadioButton:(id)sender;
 
 @end
