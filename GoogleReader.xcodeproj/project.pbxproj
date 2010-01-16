@@ -57,8 +57,6 @@
 		C401A4961101A746009A0F5F /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		C401A4971101A746009A0F5F /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		C401A4981101A746009A0F5F /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		C40EAC8E10FCCA5E0002BCF3 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
-		C40EAC9210FCCA920002BCF3 /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnit.framework; path = Library/Frameworks/GHUnit.framework; sourceTree = SDKROOT; };
 		C424A36410FC37AC007083E4 /* GoogleReaderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderAppDelegate.h; sourceTree = "<group>"; };
 		C424A36510FC37AC007083E4 /* GoogleReaderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderAppDelegate.m; sourceTree = "<group>"; };
 		C424A36810FC37C2007083E4 /* GoogleReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReader.h; sourceTree = "<group>"; };
@@ -142,8 +140,6 @@
 				C424A38510FC38A6007083E4 /* libz.dylib */,
 				C424A38710FC38BF007083E4 /* Security.framework */,
 				C424A38910FC38D0007083E4 /* SystemConfiguration.framework */,
-				C40EAC8E10FCCA5E0002BCF3 /* Tests-Info.plist */,
-				C40EAC9210FCCA920002BCF3 /* GHUnit.framework */,
 			);
 			name = GoogleReader;
 			sourceTree = "<group>";
