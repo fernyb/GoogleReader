@@ -12,19 +12,21 @@
 static NSString * kSubscribe   = @"subscribe";
 static NSString * kUnsubscribe = @"unsubscribe";
 static NSString * kDiscover    = @"discover";
-
+static NSString * kUnreadFeeds = @"unreadFeeds";
 
 @implementation AppController
+@synthesize actions, selectedAction;
 
 - (id) init
 {
   self = [super init];
   if (self != nil) {
-    action = kSubscribe;
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(didReceiveGoogleReaderResponse:) 
                                                  name:@"didReceiveGoogleReaderResponse" 
                                                object:nil];
+    selectedAction = kSubscribe;
+    [self setActions:[NSArray arrayWithObjects:kSubscribe, kUnsubscribe, kUnreadFeeds, kDiscover, nil]];
   }
   return self;
 }
@@ -36,19 +38,30 @@ static NSString * kDiscover    = @"discover";
 
 - (IBAction)subscribeBtn:(id)sender
 {
-  if([action isEqualToString:kSubscribe]) {
+  if([selectedAction isEqualToString:kSubscribe]) {
     GoogleReader * reader = [[GoogleReader alloc] init];
     [reader setEmail:[email stringValue]];
     [reader setPassword:[password stringValue]];
     [reader setRssURL:[feedURL stringValue]];
     [reader subscribe];
     [reader release];
-  } else if ([action isEqualToString:kUnsubscribe]) {
+  
+  } else if ([selectedAction isEqualToString:kUnsubscribe]) {
     GoogleReader * reader = [[GoogleReader alloc] init];
     [reader setEmail:[email stringValue]];
     [reader setPassword:[password stringValue]];
     [reader setRssURL:[feedURL stringValue]];
     [reader unsubscribe];
+    [reader release];
+    
+  } else if ([selectedAction isEqualToString:kUnreadFeeds]) {
+    GoogleReader * reader = [[GoogleReader alloc] init];
+    [reader setEmail:[email stringValue]];
+    [reader setPassword:[password stringValue]];
+    
+    NSArray * feeds = [reader unreadRSSFeeds];
+    NSLog(@"%@", feeds);
+    
     [reader release];
   }
 }
@@ -56,25 +69,6 @@ static NSString * kDiscover    = @"discover";
 - (void)didReceiveGoogleReaderResponse:(NSNotification *)notification
 {
   [response setStringValue:[notification object]];
-}
-
-- (IBAction)findSelectedRadioButton:(id)sender
-{
-  NSButtonCell * cell = [sender selectedCell];
-  switch ([cell tag]) {
-    case 101:
-        action = kSubscribe;
-      break;
-      case 102:
-        action = kUnsubscribe;
-        break;
-      case 103:
-        action = kDiscover;
-      break;
-    default:
-        action = kSubscribe;
-      break;
-  }
 }
 
 - (void) dealloc

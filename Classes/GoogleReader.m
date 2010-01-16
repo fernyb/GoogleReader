@@ -6,6 +6,7 @@
 //  Copyright 2010 Fernando Barajas. All rights reserved.
 //
 
+#import "JSON.h"
 #import "GoogleReader.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
@@ -184,6 +185,58 @@
 { 
   NSString * response = [[request error] localizedDescription];
   [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];  
+}
+
+#pragma mark Unread RSS Feeds
+
+/*
+* Returns an Array of Unread RSS Feeds
+*/
+- (NSArray *)unreadRSSFeeds {
+  if(!cookies && [cookies count] == 0) {
+    [self requestSession];
+  }
+  
+  NSString * timestamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
+  NSString * url = [NSString stringWithFormat:@"http://www.google.com/reader/api/0/unread-count?allcomments=false&output=json&ck=%@&client=scroll", timestamp];
+  
+  ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+  [request setRequestMethod:@"GET"];
+  [request setRequestCookies:cookies];
+  [request startSynchronous];
+  
+  if([request responseStatusCode] != 200) {
+    // Handle when status code is not 200
+    return [NSArray array];
+  }
+  
+  NSString * body = [request responseString];
+  NSArray * feeds;
+  NSDictionary * json;
+  
+  if([[body className] isEqualToString:@"NSString"]) {
+    json = [body JSONValue];
+  } else {
+    // I hate doing this but I get an NSCFString. 
+    // Not sure how to do this the correct way.
+    SBJsonParser * jsonParser = [SBJsonParser new];
+    json = [jsonParser objectWithString:body];
+    if (!json) {
+      NSLog(@"-JSONValue failed. Error trace is: %@", [jsonParser errorTrace]);
+    }
+    [jsonParser release];
+  }
+  
+  feeds = [json objectForKey:@"unreadcounts"];
+  
+  NSMutableArray * filteredFeeds = [NSMutableArray array];
+  for(NSDictionary * f in feeds) {
+    if([[f objectForKey:@"id"] hasPrefix:@"feed/"]) {
+      [filteredFeeds addObject:f];
+    }
+  }
+  
+  return filteredFeeds;
 }
 
 
