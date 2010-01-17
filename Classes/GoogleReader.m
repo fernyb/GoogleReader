@@ -247,8 +247,7 @@
   if(!cookies && [cookies count] == 0) {
     [self requestSession];
   }
-  NSLog(@"Subscription List");
-  
+ 
   NSString * url = @"http://www.google.com/reader/view/";
   
   ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
