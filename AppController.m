@@ -13,6 +13,7 @@ static NSString * kSubscribe   = @"subscribe";
 static NSString * kUnsubscribe = @"unsubscribe";
 static NSString * kDiscover    = @"discover";
 static NSString * kUnreadFeeds = @"unreadFeeds";
+static NSString * kReadingList = @"readingList";
 
 @implementation AppController
 @synthesize actions, selectedAction;
@@ -26,7 +27,7 @@ static NSString * kUnreadFeeds = @"unreadFeeds";
                                                  name:@"didReceiveGoogleReaderResponse" 
                                                object:nil];
     selectedAction = kSubscribe;
-    [self setActions:[NSArray arrayWithObjects:kSubscribe, kUnsubscribe, kUnreadFeeds, kDiscover, nil]];
+    [self setActions:[NSArray arrayWithObjects:kSubscribe, kUnsubscribe, kUnreadFeeds, kReadingList, kDiscover, nil]];
   }
   return self;
 }
@@ -63,6 +64,15 @@ static NSString * kUnreadFeeds = @"unreadFeeds";
     NSLog(@"%@", feeds);
     
     [reader release];
+  } else if ([selectedAction isEqualToString:kReadingList]) {
+    GoogleReader * reader = [[GoogleReader alloc] init];
+    [reader setEmail:[email stringValue]];
+    [reader setPassword:[password stringValue]];
+    
+    NSArray * list = [reader subscriptionList];
+    NSLog(@"%@", list);
+    
+    [reader release];
   }
 }
 
@@ -70,6 +80,7 @@ static NSString * kUnreadFeeds = @"unreadFeeds";
 {
   [response setStringValue:[notification object]];
 }
+
 
 - (void) dealloc
 {

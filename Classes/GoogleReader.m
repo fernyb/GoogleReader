@@ -240,6 +240,70 @@
 }
 
 
+#pragma mark Subscription List
+
+- (NSArray *)subscriptionList
+{
+  if(!cookies && [cookies count] == 0) {
+    [self requestSession];
+  }
+  NSLog(@"Subscription List");
+  
+  NSString * url = @"http://www.google.com/reader/view/";
+  
+  ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+  [request setRequestMethod:@"GET"];
+  [request setRequestCookies:cookies];
+  [request startSynchronous];
+  
+  NSMutableArray * feeds = [NSMutableArray array];
+  if([request responseStatusCode] == 200) {
+    NSString * body = [request responseString];
+    NSArray * parts = [body componentsSeparatedByString:@"_STREAM_LIST_SUBSCRIPTIONS ="];
+    
+    if([parts count] > 0) {
+      NSArray * twoPart = [[parts objectAtIndex:1] componentsSeparatedByString:@";"];
+      if([twoPart count] > 0) {
+        NSString * jsstring = [twoPart objectAtIndex:0];
+        
+        //
+        // I would like to not do this but it gives invalid json because its javascript.
+        //
+        jsstring = [[jsstring componentsSeparatedByString:@"\n"] componentsJoinedByString:@""];
+        jsstring = [[jsstring componentsSeparatedByString:@"sortid:"] componentsJoinedByString:@" \"sortid\" : "];
+        jsstring = [[jsstring componentsSeparatedByString:@"subscriptions:"] componentsJoinedByString:@" \"subscriptions\" : "];
+        jsstring = [[jsstring componentsSeparatedByString:@"id:"] componentsJoinedByString:@" \"id\" : "];
+        jsstring = [[jsstring componentsSeparatedByString:@"title:"] componentsJoinedByString:@" \"title\" : "];
+        jsstring = [[jsstring componentsSeparatedByString:@"categories:"] componentsJoinedByString:@" \"categories\" : "];
+        jsstring = [[jsstring componentsSeparatedByString:@"firstitemmsec:"] componentsJoinedByString:@" \"firstitemmsec\" : "];
+       
+       NSString * ascii;
+       NSString * octal;
+       int asciival;
+       for(NSInteger n = 127; n >= 0; n--) {
+         asciival = toascii(n);
+         ascii = [NSString stringWithFormat:@"%c", asciival];
+         octal = [NSString stringWithFormat:@"\\%o", asciival];
+         jsstring = [[jsstring componentsSeparatedByString:octal] componentsJoinedByString:ascii];
+         
+         if(asciival <= 77) {
+           octal = [NSString stringWithFormat:@"\\0%o", asciival];
+           jsstring = [[jsstring componentsSeparatedByString:octal] componentsJoinedByString:ascii];
+         }
+        }
+        
+        NSDictionary * json = [jsstring JSONValue];
+        if(json) {
+          feeds = [json objectForKey:@"subscriptions"];
+        }
+        // ---
+      }
+    }
+  }
+  
+  return feeds;
+}
+
 - (void) dealloc
 {
   [email release];

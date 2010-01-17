@@ -44,5 +44,6 @@
 - (void)requestDidFailToUnsubscribe:(ASIHTTPRequest *)request;
 
 - (NSArray *)unreadRSSFeeds;
+- (NSArray *)subscriptionList;
 
 @end
