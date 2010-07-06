@@ -38,6 +38,7 @@
     [request setUseCookiePersistance:YES];
     [request setRequestMethod:@"GET"];
     [request setRequestCookies:cookies];
+    [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
     [request startSynchronous];
     
     NSString * html = [request responseString];
@@ -104,6 +105,16 @@
 }
 
 
+- (NSString *)auth
+{
+  for(NSHTTPCookie * cookie in cookies) {
+    if([[cookie name] isEqualToString:@"Auth"]) {
+      return [cookie value];
+    }
+  }
+  return nil;
+}
+
 #pragma mark Subscribe To RSS Feed
 
 - (void)subscribeToRSSFeedURL:(NSString *)feedURL
@@ -117,7 +128,9 @@
     ASIFormDataRequest * request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
     [request setPostValue:feedURL forKey:@"quickadd"];
     [request setPostValue:[self token] forKey:@"T"];
-    [request setRequestMethod:@"POST"];
+    [request setRequestMethod:@"POST"];   
+    [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
+   
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(requestDidSubscribe:)];
     [request setDidFailSelector:@selector(requestDidFailToSubscribe:)];
@@ -160,6 +173,7 @@
     [request setPostValue:@"unsubscribe" forKey:@"ac"];
     [request setPostValue:[self token] forKey:@"T"];
     [request setRequestMethod:@"POST"];
+    [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
     
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(requestDidUnsubscribe:)];
@@ -203,6 +217,8 @@
   ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
   [request setRequestMethod:@"GET"];
   [request setRequestCookies:cookies];
+  [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
+  
   [request startSynchronous];
   
   if([request responseStatusCode] != 200) {
@@ -253,6 +269,8 @@
   ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
   [request setRequestMethod:@"GET"];
   [request setRequestCookies:cookies];
+  [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
+  
   [request startSynchronous];
   
   NSMutableArray * feeds = [NSMutableArray array];

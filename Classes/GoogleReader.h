@@ -38,6 +38,8 @@
 - (void)requestDidSubscribe:(ASIHTTPRequest *)request;
 - (void)requestDidFailToSubscribe:(ASIHTTPRequest *)request;
 
+- (NSString *)auth;
+
 - (void)unsubscribe;
 - (void)unsubscribeToRSSFeedURL:(NSString *)feedURL;
 - (void)requestDidUnsubscribe:(ASIHTTPRequest *)request;
