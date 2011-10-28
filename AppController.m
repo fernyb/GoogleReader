@@ -22,9 +22,9 @@ static NSString * kReadingList = @"readingList";
 {
   self = [super init];
   if (self != nil) {
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(didReceiveGoogleReaderResponse:) 
-                                                 name:@"didReceiveGoogleReaderResponse" 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveGoogleReaderResponse:)
+                                                 name:@"didReceiveGoogleReaderResponse"
                                                object:nil];
     selectedAction = kSubscribe;
     [self setActions:[NSArray arrayWithObjects:kSubscribe, kUnsubscribe, kUnreadFeeds, kReadingList, kDiscover, nil]];
@@ -46,7 +46,7 @@ static NSString * kReadingList = @"readingList";
     [reader setRssURL:[feedURL stringValue]];
     [reader subscribe];
     [reader release];
-  
+
   } else if ([selectedAction isEqualToString:kUnsubscribe]) {
     GoogleReader * reader = [[GoogleReader alloc] init];
     [reader setEmail:[email stringValue]];
@@ -54,24 +54,24 @@ static NSString * kReadingList = @"readingList";
     [reader setRssURL:[feedURL stringValue]];
     [reader unsubscribe];
     [reader release];
-    
+
   } else if ([selectedAction isEqualToString:kUnreadFeeds]) {
     GoogleReader * reader = [[GoogleReader alloc] init];
     [reader setEmail:[email stringValue]];
     [reader setPassword:[password stringValue]];
-    
+
     NSArray * feeds = [reader unreadRSSFeeds];
     NSLog(@"%@", feeds);
-    
+
     [reader release];
   } else if ([selectedAction isEqualToString:kReadingList]) {
     GoogleReader * reader = [[GoogleReader alloc] init];
     [reader setEmail:[email stringValue]];
     [reader setPassword:[password stringValue]];
-    
+
     NSArray * list = [reader subscriptionList];
     NSLog(@"%@", list);
-    
+
     [reader release];
   }
 }

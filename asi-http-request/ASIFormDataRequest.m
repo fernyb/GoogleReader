@@ -55,9 +55,9 @@
 - (void)dealloc
 {
 #if DEBUG_FORM_DATA_REQUEST
-	[debugBodyString release]; 
+	[debugBodyString release];
 #endif
-	
+
 	[postData release];
 	[fileData release];
 	[super dealloc];
@@ -84,7 +84,7 @@
 	if (![self fileData]) {
 		[self setFileData:[NSMutableDictionary dictionary]];
 	}
-	
+
 	// If data is a path to a local file
 	if ([data isKindOfClass:[NSString class]]) {
 		BOOL isDirectory = NO;
@@ -97,14 +97,14 @@
 		if (!fileName) {
 			fileName = [(NSString *)data lastPathComponent];
 		}
-	
+
 		// If we were given the path to a file, and the user didn't specify a mime type, we can detect it (currently only on Mac OS)
 		// Will return 'application/octet-stream' on iPhone, or if the mime type cannot be determined
 		if (!contentType) {
 			contentType = [ASIHTTPRequest mimeTypeForFileAtPath:data];
 		}
 	}
-	
+
 	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, @"data", contentType, @"contentType", fileName, @"fileName", nil];
 	[[self fileData] setObject:fileInfo forKey:key];
 	[self setRequestMethod: @"POST"];
@@ -123,7 +123,7 @@
 	if (!contentType) {
 		contentType = @"application/octet-stream";
 	}
-	
+
 	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, @"data", contentType, @"contentType", fileName, @"fileName", nil];
 	[[self fileData] setObject:fileInfo forKey:key];
 	[self setRequestMethod: @"POST"];
@@ -134,19 +134,19 @@
 	if ([self haveBuiltPostBody]) {
 		return;
 	}
-	
+
 #if DEBUG_FORM_DATA_REQUEST
-	[self setDebugBodyString:@""];	
+	[self setDebugBodyString:@""];
 #endif
-	
+
 	if (![self postData] && ![self fileData]) {
 		[super buildPostBody];
 		return;
-	}	
+	}
 	if ([[self fileData] count] > 0) {
 		[self setShouldStreamPostDataFromDisk:YES];
 	}
-	
+
 	if ([self postFormat] == ASIURLEncodedPostFormat) {
 		[self buildURLEncodedPostBody];
 	} else {
@@ -154,7 +154,7 @@
 	}
 
 	[super buildPostBody];
-	
+
 #if DEBUG_FORM_DATA_REQUEST
 	NSLog(@"%@",[self debugBodyString]);
 	[self setDebugBodyString:nil];
@@ -167,16 +167,16 @@
 #if DEBUG_FORM_DATA_REQUEST
 	[self addToDebugBody:@"\r\n==== Building a multipart/form-data body ====\r\n"];
 #endif
-	
+
 	NSString *charset = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding([self stringEncoding]));
-	
+
 	// Set your own boundary string only if really obsessive. We don't bother to check if post data contains the boundary, since it's pretty unlikely that it does.
 	NSString *stringBoundary = @"0xKhTmLbOuNdArY";
-	
+
 	[self addRequestHeader:@"Content-Type" value:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@", charset, stringBoundary]];
-	
+
 	[self appendPostString:[NSString stringWithFormat:@"--%@\r\n",stringBoundary]];
-	
+
 	// Adds post data
 	NSString *endItemBoundary = [NSString stringWithFormat:@"\r\n--%@\r\n",stringBoundary];
 	NSEnumerator *e = [[self postData] keyEnumerator];
@@ -190,7 +190,7 @@
 			[self appendPostString:endItemBoundary];
 		}
 	}
-	
+
 	// Adds files to upload
 	e = [fileData keyEnumerator];
 	i=0;
@@ -199,10 +199,10 @@
 		id file = [fileInfo objectForKey:@"data"];
 		NSString *contentType = [fileInfo objectForKey:@"contentType"];
 		NSString *fileName = [fileInfo objectForKey:@"fileName"];
-		
+
 		[self appendPostString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", key, fileName]];
 		[self appendPostString:[NSString stringWithFormat:@"Content-Type: %@; charset=%@\r\n\r\n", contentType, charset]];
-		
+
 		if ([file isKindOfClass:[NSString class]]) {
 			[self appendPostDataFromFile:file];
 		} else {
@@ -210,13 +210,13 @@
 		}
 		i++;
 		// Only add the boundary if this is not the last item in the post body
-		if (i != [[self fileData] count]) { 
+		if (i != [[self fileData] count]) {
 			[self appendPostString:endItemBoundary];
 		}
 	}
-	
+
 	[self appendPostString:[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary]];
-	
+
 #if DEBUG_FORM_DATA_REQUEST
 	[self addToDebugBody:@"==== End of multipart/form-data body ====\r\n"];
 #endif
@@ -231,28 +231,28 @@
 		[self buildMultipartFormDataPostBody];
 		return;
 	}
-	
+
 #if DEBUG_FORM_DATA_REQUEST
-	[self addToDebugBody:@"\r\n==== Building an application/x-www-form-urlencoded body ====\r\n"]; 
+	[self addToDebugBody:@"\r\n==== Building an application/x-www-form-urlencoded body ====\r\n"];
 #endif
-	
-	
+
+
 	NSString *charset = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding([self stringEncoding]));
 
 	[self addRequestHeader:@"Content-Type" value:[NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@",charset]];
 
-	
+
 	NSEnumerator *e = [[self postData] keyEnumerator];
 	NSString *key;
 	int i=0;
 	int count = [[self postData] count]-1;
 	while (key = [e nextObject]) {
-        NSString *data = [NSString stringWithFormat:@"%@=%@%@", [self encodeURL:key], [self encodeURL:[[self postData] objectForKey:key]],(i<count ?  @"&" : @"")]; 
+        NSString *data = [NSString stringWithFormat:@"%@=%@%@", [self encodeURL:key], [self encodeURL:[[self postData] objectForKey:key]],(i<count ?  @"&" : @"")];
 		[self appendPostString:data];
 		i++;
 	}
 #if DEBUG_FORM_DATA_REQUEST
-	[self addToDebugBody:@"\r\n==== End of application/x-www-form-urlencoded body ====\r\n"]; 
+	[self addToDebugBody:@"\r\n==== End of application/x-www-form-urlencoded body ====\r\n"];
 #endif
 }
 

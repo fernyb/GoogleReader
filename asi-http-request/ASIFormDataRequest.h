@@ -13,31 +13,31 @@
 typedef enum _ASIPostFormat {
     ASIMultipartFormDataPostFormat = 0,
     ASIURLEncodedPostFormat = 1
-	
+
 } ASIPostFormat;
 
 @interface ASIFormDataRequest : ASIHTTPRequest <NSCopying> {
 
 	// Parameters that will be POSTed to the url
 	NSMutableDictionary *postData;
-	
+
 	// Files that will be POSTed to the url
 	NSMutableDictionary *fileData;
-	
+
 	ASIPostFormat postFormat;
-	
+
 	NSStringEncoding stringEncoding;
-	
+
 #if DEBUG_FORM_DATA_REQUEST
 	// Will store a string version of the request body that will be printed to the console when ASIHTTPREQUEST_DEBUG is set in GCC_PREPROCESSOR_DEFINITIONS
 	NSString *debugBodyString;
 #endif
-	
+
 }
 
-#pragma mark utilities 
-- (NSString*)encodeURL:(NSString *)string; 
- 
+#pragma mark utilities
+- (NSString*)encodeURL:(NSString *)string;
+
 #pragma mark setup request
 
 // Add a POST variable to the request
