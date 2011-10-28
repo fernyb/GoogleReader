@@ -92,7 +92,7 @@ static NSDateFormatter *dateFormatter = nil;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
 	[self setCurrentElement:elementName];
-	
+
 	if ([elementName isEqualToString:@"Contents"]) {
 		[self setCurrentObject:[ASIS3BucketObject objectWithBucket:[self bucket]]];
 	}

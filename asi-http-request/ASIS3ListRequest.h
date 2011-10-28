@@ -11,19 +11,19 @@
 @class ASIS3BucketObject;
 
 @interface ASIS3ListRequest : ASIS3Request <NSCopying> {
-	
+
 	// Options for filtering list requests
 	// See http://docs.amazonwebservices.com/AmazonS3/2006-03-01/index.html?RESTBucketGET.html
 	NSString *prefix;
 	NSString *marker;
 	int maxResultCount;
-	NSString *delimiter;	
-	
+	NSString *delimiter;
+
 	// Internally used while parsing the response
 	NSString *currentContent;
 	NSString *currentElement;
 	ASIS3BucketObject *currentObject;
-	NSMutableArray *objects;	
+	NSMutableArray *objects;
 }
 // Create a list request
 + (id)listRequestWithBucket:(NSString *)bucket;
@@ -38,5 +38,5 @@
 @property (retain) NSString *prefix;
 @property (retain) NSString *marker;
 @property (assign) int maxResultCount;
-@property (retain) NSString *delimiter;	
+@property (retain) NSString *delimiter;
 @end

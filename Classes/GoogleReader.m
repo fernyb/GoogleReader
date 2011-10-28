@@ -30,17 +30,17 @@
 #pragma mark Request A Token
 
 - (void)requestToken
-{  
-  if(cookies && [cookies count] > 0) {      
+{
+  if(cookies && [cookies count] > 0) {
     NSString * url = @"http://www.google.com/reader/api/0/token";
-    
+
     ASIHTTPRequest * request = [[[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:url]] autorelease];
     [request setUseCookiePersistance:YES];
     [request setRequestMethod:@"GET"];
     [request setRequestCookies:cookies];
     [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
     [request startSynchronous];
-    
+
     NSString * html = [request responseString];
     [self setToken:html];
   }
@@ -53,9 +53,9 @@
   if(cookies && [cookies count] > 0) {
     return;
   }
-  
+
   NSString * url = [NSString stringWithFormat:@"https://www.google.com/accounts/ClientLogin?service=reader&Email=%@&Passwd=%@", [self email], [self password]];
- 
+
   ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
   [request setDelegate:self];
   [request setDidFinishSelector:@selector(requestSessionDidFinish:)];
@@ -66,31 +66,31 @@
 #pragma mark Request Session Delegate
 
 - (void)requestSessionDidFinish:(ASIHTTPRequest *)request
-{  
+{
   NSString * html = [request responseString];
   if(html) {
     NSArray * items = [html componentsSeparatedByString:@"\n"];
-    
+
     cookies = [[NSMutableArray alloc] init];
-    
+
     NSArray  * parts;
     NSString * cName;
     NSString * cValue;
-    
+
     for(NSString * c in items) {
       parts  = [c componentsSeparatedByString:@"="];
-      if([parts count] == 2) {            
+      if([parts count] == 2) {
         cName  = [parts objectAtIndex:0];
         cValue = [parts objectAtIndex:1];
-        
+
         NSMutableDictionary * cookieProperties = [[NSMutableDictionary alloc] init];
         [cookieProperties setValue:cName forKey:NSHTTPCookieName];
         [cookieProperties setValue:cValue forKey:NSHTTPCookieValue];
         [cookieProperties setValue:@"/" forKey:NSHTTPCookiePath];
         [cookieProperties setValue:@".google.com" forKey:NSHTTPCookieDomain];
-        
+
         NSHTTPCookie * cookie = [[NSHTTPCookie alloc] initWithProperties:cookieProperties];
-        
+
         [cookies addObject:cookie];
         [cookie release], cookie = nil;
         [cookieProperties release], cookieProperties = nil;
@@ -121,16 +121,16 @@
 {
   [self requestSession];
   [self requestToken];
-  
+
   if([self token] && feedURL) {
     NSString * url = @"http://www.google.com/reader/api/0/subscription/quickadd?client=scroll";
-    
+
     ASIFormDataRequest * request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
     [request setPostValue:feedURL forKey:@"quickadd"];
     [request setPostValue:[self token] forKey:@"T"];
-    [request setRequestMethod:@"POST"];   
+    [request setRequestMethod:@"POST"];
     [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
-   
+
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(requestDidSubscribe:)];
     [request setDidFailSelector:@selector(requestDidFailToSubscribe:)];
@@ -152,9 +152,9 @@
 }
 
 - (void)requestDidFailToSubscribe:(ASIHTTPRequest *)request
-{ 
+{
   NSString * response = [[request error] localizedDescription];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];  
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];
 }
 
 #pragma mark Unsubscribe
@@ -163,22 +163,22 @@
 {
   [self requestSession];
   [self requestToken];
- 
+
   if([self token] && feedURL) {
     NSString * url = @"http://www.google.com/reader/api/0/subscription/edit?client=scroll";
-    
+
     ASIFormDataRequest * request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setPostValue:[NSString stringWithFormat:@"feed/%@", feedURL] 
+    [request setPostValue:[NSString stringWithFormat:@"feed/%@", feedURL]
                    forKey:@"s"];
     [request setPostValue:@"unsubscribe" forKey:@"ac"];
     [request setPostValue:[self token] forKey:@"T"];
     [request setRequestMethod:@"POST"];
     [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
-    
+
     [request setDelegate:self];
     [request setDidFinishSelector:@selector(requestDidUnsubscribe:)];
     [request setDidFailSelector:@selector(requestDidFailToUnsubscribe:)];
-    [request startSynchronous];    
+    [request startSynchronous];
   }
 }
 
@@ -196,9 +196,9 @@
 }
 
 - (void)requestDidFailToUnsubscribe:(ASIHTTPRequest *)request
-{ 
+{
   NSString * response = [[request error] localizedDescription];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];  
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"didReceiveGoogleReaderResponse" object:response];
 }
 
 #pragma mark Unread RSS Feeds
@@ -210,30 +210,30 @@
   if(!cookies && [cookies count] == 0) {
     [self requestSession];
   }
-  
+
   NSString * timestamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
   NSString * url = [NSString stringWithFormat:@"http://www.google.com/reader/api/0/unread-count?allcomments=false&output=json&ck=%@&client=scroll", timestamp];
-  
+
   ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
   [request setRequestMethod:@"GET"];
   [request setRequestCookies:cookies];
   [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
-  
+
   [request startSynchronous];
-  
+
   if([request responseStatusCode] != 200) {
     // Handle when status code is not 200
     return [NSArray array];
   }
-  
+
   NSString * body = [request responseString];
   NSArray * feeds;
   NSDictionary * json;
-  
+
   if([[body className] isEqualToString:@"NSString"]) {
     json = [body JSONValue];
   } else {
-    // I hate doing this but I get an NSCFString. 
+    // I hate doing this but I get an NSCFString.
     // Not sure how to do this the correct way.
     SBJsonParser * jsonParser = [SBJsonParser new];
     json = [jsonParser objectWithString:body];
@@ -242,16 +242,16 @@
     }
     [jsonParser release];
   }
-  
+
   feeds = [json objectForKey:@"unreadcounts"];
-  
+
   NSMutableArray * filteredFeeds = [NSMutableArray array];
   for(NSDictionary * f in feeds) {
     if([[f objectForKey:@"id"] hasPrefix:@"feed/"]) {
       [filteredFeeds addObject:f];
     }
   }
-  
+
   return filteredFeeds;
 }
 
@@ -263,16 +263,16 @@
   if(!cookies && [cookies count] == 0) {
     [self requestSession];
   }
-  
+
   NSString * url = @"http://www.google.com/reader/api/0/subscription/list?output=json&client=scroll";
-  
+
   ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
   [request setRequestMethod:@"GET"];
   [request setRequestCookies:cookies];
   [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"GoogleLogin auth=%@", [self auth]]];
-  
+
   [request startSynchronous];
-  
+
   NSMutableArray * feeds = [NSMutableArray array];
   if([request responseStatusCode] == 200) {
     NSString * body = [request responseString];
@@ -281,7 +281,7 @@
       feeds = [json objectForKey:@"subscriptions"];
     }
   }
-  
+
   return feeds;
 }
 
