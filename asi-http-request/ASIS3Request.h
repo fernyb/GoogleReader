@@ -19,7 +19,7 @@ extern NSString *const ASIS3AccessPolicyAuthenticatedRead;
 typedef enum _ASIS3ErrorType {
     ASIS3ResponseParsingFailedType = 1,
     ASIS3ResponseErrorType = 2
-	
+
 } ASIS3ErrorType;
 
 // Prevent warning about missing NSXMLParserDelegate on Leopard and iPhone
@@ -31,34 +31,34 @@ typedef enum _ASIS3ErrorType {
 #endif
 	// Your S3 access key. Set it on the request, or set it globally using [ASIS3Request setSharedAccessKey:]
 	NSString *accessKey;
-	
+
 	// Your S3 secret access key. Set it on the request, or set it globally using [ASIS3Request setSharedSecretAccessKey:]
 	NSString *secretAccessKey;
-	
+
 	// Name of the bucket to talk to
 	NSString *bucket;
-	
+
 	// Path to the resource you want to access on S3. Leave empty for the bucket root
 	NSString *path;
-	
+
 	// The string that will be used in the HTTP date header. Generally you'll want to ignore this and let the class add the current date for you, but the accessor is used by the tests
 	NSString *dateString;
-	
+
 	// The mime type of the content for PUT requests
 	// Set this if having the correct mime type returned to you when you GET the data is important (eg it will be served by a web-server)
 	// Will be set to 'application/octet-stream' otherwise in iPhone apps, or autodetected on Mac OS X
 	NSString *mimeType;
-	
+
 	// The access policy to use when PUTting a file (see the string constants at the top of this header)
 	NSString *accessPolicy;
-	
+
 	// The bucket + path of the object to be copied (used with COPYRequestFromBucket:path:toBucket:path:)
 	NSString *sourceBucket;
 	NSString *sourcePath;
-	
+
 	// Internally used while parsing errors
 	NSString *currentErrorString;
-	
+
 }
 
 #pragma mark Constructors
@@ -71,7 +71,7 @@ typedef enum _ASIS3ErrorType {
 
 // Create a PUT request using the supplied NSData as the body (set the mime-type manually with setMimeType: if necessary)
 + (id)PUTRequestForData:(NSData *)data withBucket:(NSString *)bucket path:(NSString *)path;
-	
+
 // Create a DELETE request for the object at path
 + (id)DELETERequestWithBucket:(NSString *)bucket path:(NSString *)path;
 

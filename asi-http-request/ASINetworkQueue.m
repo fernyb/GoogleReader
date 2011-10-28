@@ -22,7 +22,7 @@
 	[self setShouldCancelAllRequestsOnFailure:YES];
 	[self setMaxConcurrentOperationCount:4];
 	[self setSuspended:YES];
-	
+
 	return self;
 }
 
@@ -68,7 +68,7 @@
 		}
 		if ([self uploadProgressDelegate]) {
 			[self incrementUploadSizeBy:[self requestsCount]];
-		}		
+		}
 	}
 	[self setSuspended:NO];
 }
@@ -124,13 +124,13 @@
 - (void)addHEADOperation:(NSOperation *)operation
 {
 	if ([operation isKindOfClass:[ASIHTTPRequest class]]) {
-		
+
 		ASIHTTPRequest *request = (ASIHTTPRequest *)operation;
 		[request setRequestMethod:@"HEAD"];
 		[request setQueuePriority:10];
 		[request setShowAccurateProgress:YES];
 		[request setQueue:self];
-		
+
 		// Important - we are calling NSOperation's add method - we don't want to add this as a normal request!
 		[super addOperation:request];
 	}
@@ -142,13 +142,13 @@
 	if (![operation isKindOfClass:[ASIHTTPRequest class]]) {
 		[NSException raise:@"AttemptToAddInvalidRequest" format:@"Attempted to add an object that was not an ASIHTTPRequest to an ASINetworkQueue"];
 	}
-		
+
 	[self setRequestsCount:[self requestsCount]+1];
-	
+
 	ASIHTTPRequest *request = (ASIHTTPRequest *)operation;
-	
+
 	if ([self showAccurateProgress]) {
-		
+
 		// If this is a GET request and we want accurate progress, perform a HEAD request first to get the content-length
 		// We'll only do this before the queue is started
 		// If requests are added after the queue is started they will probably move the overall progress backwards anyway, so there's no value performing the HEAD requests first
@@ -156,12 +156,12 @@
 		if ([[request requestMethod] isEqualToString:@"GET"] && [self isSuspended]) {
 			ASIHTTPRequest *HEADRequest = [request HEADRequest];
 			[self addHEADOperation:HEADRequest];
-			
+
 			//Tell the request not to reset the progress indicator when it gets a content-length, as we will get the length from the HEAD request
 			[request setShouldResetProgressIndicators:NO];
-			
+
 			[request addDependency:HEADRequest];
-		
+
 		// If we want to track uploading for this request accurately, we need to add the size of the post content to the total
 		} else if (uploadProgressDelegate) {
 			[request buildPostBody];
@@ -170,7 +170,7 @@
 	}
 	[request setShowAccurateProgress:[self showAccurateProgress]];
 
-	
+
 	[request setQueue:self];
 	[super addOperation:request];
 	[self updateNetworkActivityIndicator];
@@ -240,11 +240,11 @@
 		return;
 	}
 	[self setBytesUploadedSoFar:[self bytesUploadedSoFar] - bytes];
-	
+
 	double progress;
 	//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 	if ([ASIHTTPRequest isiPhoneOS2]) {
-		progress = [[NSNumber numberWithUnsignedLongLong:[self bytesUploadedSoFar]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self totalBytesToUpload]] doubleValue]; 
+		progress = [[NSNumber numberWithUnsignedLongLong:[self bytesUploadedSoFar]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self totalBytesToUpload]] doubleValue];
 	} else {
 		progress = ([self bytesUploadedSoFar]*1.0)/([self totalBytesToUpload]*1.0);
 	}
@@ -258,11 +258,11 @@
 		return;
 	}
 	[self setBytesUploadedSoFar:[self bytesUploadedSoFar] + bytes];
-	
+
 	double progress;
 	//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 	if ([ASIHTTPRequest isiPhoneOS2]) {
-		progress = [[NSNumber numberWithUnsignedLongLong:[self bytesUploadedSoFar]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self totalBytesToUpload]] doubleValue]; 
+		progress = [[NSNumber numberWithUnsignedLongLong:[self bytesUploadedSoFar]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self totalBytesToUpload]] doubleValue];
 	} else {
 		progress = ([self bytesUploadedSoFar]*1.0)/([self totalBytesToUpload]*1.0);
 	}
@@ -285,11 +285,11 @@
 		return;
 	}
 	[self setBytesDownloadedSoFar:[self bytesDownloadedSoFar] + bytes];
-	
+
 	double progress;
 	//Workaround for an issue with converting a long to a double on iPhone OS 2.2.1 with a base SDK >= 3.0
 	if ([ASIHTTPRequest isiPhoneOS2]) {
-		progress = [[NSNumber numberWithUnsignedLongLong:[self bytesDownloadedSoFar]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self totalBytesToDownload]] doubleValue]; 
+		progress = [[NSNumber numberWithUnsignedLongLong:[self bytesDownloadedSoFar]] doubleValue]/[[NSNumber numberWithUnsignedLongLong:[self totalBytesToDownload]] doubleValue];
 	} else {
 		progress = ([self bytesDownloadedSoFar]*1.0)/([self totalBytesToDownload]*1.0);
 	}

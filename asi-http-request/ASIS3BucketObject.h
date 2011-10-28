@@ -10,22 +10,22 @@
 @class ASIS3Request;
 
 @interface ASIS3BucketObject : NSObject <NSCopying> {
-	
+
 	// The bucket this object belongs to
 	NSString *bucket;
-	
+
 	// The key (path) of this object in the bucket
 	NSString *key;
-	
+
 	// When this object was last modified
 	NSDate *lastModified;
-	
+
 	// The ETag for this object's content
 	NSString *ETag;
-	
+
 	// The size in bytes of this object
 	unsigned long long size;
-	
+
 	// Info about the owner
 	NSString *ownerID;
 	NSString *ownerName;
